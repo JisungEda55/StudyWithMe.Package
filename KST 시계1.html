@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KST Time Display</title>
+    
+    <!-- 나눔스퀘어 네오 900 폰트 -->
+    <style>
+        @font-face {
+            font-family: 'NanumSquareNeo';
+            font-weight: 900;
+            font-style: normal;
+            src: url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.eot');
+            src: url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.eot?#iefix') format('embedded-opentype'),
+                 url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.woff2') format('woff2'),
+                 url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.woff') format('woff'),
+                 url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.ttf') format("truetype");
+            font-display: swap;
+        }
+
+        body {
+            font-family: 'NanumSquareNeo', sans-serif;
+            text-align: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #57fd39; /* 배경색 변경 */
+            color: #fff;
+        }
+
+        p {
+            font-size: 72px;
+            -webkit-text-stroke: 3px #007aff; /* 테두리 두께와 색상 설정 */
+            color: white; 
+        }
+    </style>
+</head>
+<body>
+    <p id="currentTime"></p>
+
+    <script>
+        function getKSTTime() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            var seconds = now.getSeconds().toString().padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        function updateKSTTime() {
+            var kstTimeElement = document.getElementById('currentTime');
+            kstTimeElement.textContent = getKSTTime();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateKSTTime();
+            setInterval(updateKSTTime, 1000);
+        });
+    </script>
+</body>
+</html>

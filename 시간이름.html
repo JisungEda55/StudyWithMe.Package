@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>일정 알림</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #28f417; /* 배경 색상 변경 */
+      font-family: 'NanumSquareNeo', sans-serif; /* 나눔스퀘어 네오 900 폰트 사용 */
+    }
+
+    #message {
+      display: none;
+      font-size: 24px;
+      color: #fff;
+      background-color: #39A7FF;
+      padding: 5px;
+      border-radius: 13px;
+      font-family: 'NanumSquareNeo', normal; 
+      font-weight: 900; /* 나눔스퀘어 네오 900 폰트 사용 */
+    }
+  </style>
+  <style>
+    @font-face {
+      font-family: 'NanumSquareNeo';
+      font-weight: 900;
+      font-style: normal;
+      src: url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeoBold.eot');
+      src: url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeoBold.eot?#iefix') format('embedded-opentype'),
+           url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeoBold.woff2') format('woff2'),
+           url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeoBold.woff') format('woff'),
+           url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeoBold.ttf') format("truetype");
+      font-display: swap;
+    }
+  </style>
+</head>
+<body>
+  <div id="message"></div>
+  <script>
+    function updateMessage() {
+      var currentTime = new Date();
+      var schedule = [
+   { start: "06:57", end: "06:59", activity: "LIVE SOON! :D" },     
+  { start: "07:00", end: "07:50", activity: "07:00~07:50 (50')" },
+  { start: "07:50", end: "08:00", activity: "07:50~08:00 (10')" },
+  { start: "08:00", end: "08:50", activity: "08:00~08:50 (50')" },
+  { start: "08:50", end: "09:00", activity: "08:50~09:00 (10')" },
+  { start: "09:00", end: "09:50", activity: "09:00~09:50 (50')" },
+  { start: "09:50", end: "10:00", activity: "09:50~10:00 (10')" },
+  { start: "10:00", end: "10:50", activity: "10:00~10:50 (50')" },
+  { start: "10:50", end: "11:00", activity: "10:50~11:00 (10')" },
+  { start: "11:00", end: "11:50", activity: "11:00~11:50 (50')" },
+  { start: "11:50", end: "12:00", activity: "11:50~12:00 (10')" },
+  { start: "12:00", end: "13:00", activity: "12:00~13:00 (60')" },
+  { start: "13:00", end: "13:50", activity: "13:00~13:50 (50')" },
+  { start: "13:50", end: "14:00", activity: "13:50~14:00 (10')" },
+  { start: "14:00", end: "14:50", activity: "14:00~14:50 (50')" },
+  { start: "14:50", end: "15:00", activity: "14:50~15:00 (10')" },
+  { start: "15:00", end: "15:50", activity: "15:00~15:50 (50')" },
+  { start: "15:50", end: "16:00", activity: "15:50~16:00 (10')" },
+  { start: "16:00", end: "16:50", activity: "16:00~16:50 (50')" },
+  { start: "16:50", end: "17:00", activity: "16:50~17:00 (10')" },
+  { start: "17:00", end: "17:50", activity: "17:00~17:50 (50')" },
+  { start: "17:50", end: "18:00", activity: "17:50~18:00 (10')" },
+  { start: "18:00", end: "18:50", activity: "18:00~18:50 (50')" },
+  { start: "18:500", end: "20:00", activity: "18:50~20:00 (70')" },
+  { start: "20:00", end: "20:50", activity: "20:00~20:50 (50')" },
+  { start: "20:50", end: "21:00", activity: "20:50~21:00 (10')" },
+  { start: "21:00", end: "21:50", activity: "21:00~21:50 (50')" },
+  { start: "21:50", end: "22:00", activity: "21:50~22:00 (10')" },
+  { start: "22:00", end: "22:50", activity: "22:00~22:50 (50')" },
+  { start: "22:50", end: "23:00", activity: "22:50~23:00 (10')" }
+  { start: "23:01", end: "06:56", activity: "UnPluged :(" }
+      ];
+
+      var messageElement = document.getElementById('message');
+      messageElement.style.display = 'none';
+
+      for (var i = 0; i < schedule.length; i++) {
+        var start = new Date(currentTime.toDateString() + ' ' + schedule[i].start);
+        var end = new Date(currentTime.toDateString() + ' ' + schedule[i].end);
+
+        if (currentTime >= start && currentTime <= end) {
+          messageElement.textContent = schedule[i].activity;
+          messageElement.style.display = 'block';
+          break;
+        }
+      }
+    }
+
+    function checkKST() {
+      var currentTime = new Date();
+      var kstOffset = 9 * 60; // KST는 UTC+9
+      var kstTime = new Date(currentTime.getTime() + kstOffset * 60 * 1000);
+
+      if (currentTime.getHours() % 6 === 0 && currentTime.getMinutes() === 0) {
+        console.log("현재 시간은 KST 기준으로 정각입니다.");
+      }
+    }
+
+    setInterval(updateMessage, 1000); // 1초마다 업데이트
+    setInterval(checkKST, 1800000); // 30분마다 KST 확인
+  </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KST 요일 표시</title>
+    <style>
+        @font-face {
+            font-family: 'NanumSquareNeo';
+            font-weight: 900;
+            font-style: normal;
+            src: url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.eot');
+            src: url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.eot?#iefix') format('embedded-opentype'),
+                 url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.woff2') format('woff2'),
+                 url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.woff') format('woff'),
+                 url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.ttf') format("truetype");
+            font-display: swap;
+        }
+
+        body {
+    font-family: 'NanumSquareNeo', sans-serif;
+    text-align: center;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: row; /* 요일을 가로로 배열하도록 수정 */
+    align-items: center;
+    justify-content: center; /* 화면 정중앙에 정렬 */
+    background-color: #28f417; /* 화면 배경 색상을 변경 */
+    color: #fff;
+}
+
+.day-circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em; /* 글자 크기를 1.5배로 키움 */
+    margin: 0 3px; /* 좌우 여백을 추가하여 요일들 간의 간격을 조절 */
+}
+
+        /* 각 요일에 해당하는 클래스와 배경 색상을 지정합니다. */
+        .sun { background-color: #fff; }
+        .mon { background-color: #fff; }
+        .tue { background-color: #fff; }
+        .wed { background-color: #fff; }
+        .thu { background-color: #fff; }
+        .fri { background-color: #fff; }
+        .sat { background-color: #fff; }
+    </style>
+</head>
+<body>
+    <!-- 각 요일에 해당하는 div 요소를 생성합니다. -->
+    <div class="day-circle sun">일</div>
+    <div class="day-circle mon">월</div>
+    <div class="day-circle tue">화</div>
+    <div class="day-circle wed">수</div>
+    <div class="day-circle thu">목</div>
+    <div class="day-circle fri">금</div>
+    <div class="day-circle sat">토</div>
+
+    <script>
+        // JavaScript를 사용하여 현재 KST의 요일을 가져오고, 해당 요일에 해당하는 배경 색상을 변경합니다.
+        function updateDayColor() {
+            var days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+            var today = new Date().toLocaleString('en-US', {timeZone: 'Asia/Seoul'});
+            var currentDay = new Date(today).getDay(); // 0부터 일요일, 1부터 월요일, ..., 6부터 토요일
+
+            // 모든 요일의 배경 색상을 초기화합니다.
+            days.forEach(function(day) {
+                document.querySelector('.' + day).style.backgroundColor = '#39A7FF';
+            });
+
+            // 현재 요일에 해당하는 배경 색상을 변경합니다.
+            document.querySelector('.' + days[currentDay]).style.backgroundColor = '#fac000';
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDayColor();
+        });
+    </script>
+</body>
+</html>

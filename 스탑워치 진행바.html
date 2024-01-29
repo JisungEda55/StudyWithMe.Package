@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>스탑워치 진행바</title>
+  <style>
+    #container {
+      text-align: center;
+    }
+
+    #bar {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 380px;
+      height: 10px;
+      background-color: #FFF56D;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    #fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      background-color: #FF5D5D;
+      transition: width 1s linear;
+    }
+
+    #controls {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #remaining {
+      margin-top: 10px;
+      border: 0px solid #FFF;
+      display: inline-block;
+      padding: 2px 2px;
+      border-radius: 10px;
+      color: black;
+      background-color: white;
+    }
+  </style>
+</head>
+<body style="background-color: #28f417;">
+  <div id="container">
+    <div id="bar">
+      <div id="fill"></div>
+    </div>
+    <div id="controls">
+      <button onclick="start()">시작</button>
+      <button onclick="stop()">정지</button>
+      <button onclick="resume()">재개</button>
+      <button onclick="reset()">초기화</button>
+      <input type="number" id="time" value="50" min="1" max="60" onchange="updateTime()">분
+      <span id="remaining"></span>
+    </div>
+  </div>
+  <script>
+    var fill = document.getElementById("fill");
+    var time = document.getElementById("time");
+    var remaining = document.getElementById("remaining");
+    var intervalId;
+    var duration;
+    var timeLeft;
+
+    function start() {
+      if (intervalId) {
+        return;
+      }
+      duration = time.value * 60 * 1000;
+      timeLeft = duration;
+      intervalId = setInterval(update, 1000);
+    }
+
+    function stop() {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+
+    function resume() {
+      if (intervalId) {
+        return;
+      }
+      intervalId = setInterval(update, 1000);
+    }
+
+    function reset() {
+      clearInterval(intervalId);
+      intervalId = null;
+      fill.style.width = "0%";
+      timeLeft = duration;
+      remaining.textContent = "";
+    }
+
+    function update() {
+      timeLeft -= 1000;
+      if (timeLeft <= 0) {
+        stop();
+        fill.style.width = "100%";
+        return;
+      }
+      var percent = (duration - timeLeft) / duration * 100;
+      fill.style.width = percent + "%";
+      remaining.textContent = "남은 시간: " + Math.ceil(timeLeft / 1000) + "초";
+    }
+
+    function updateTime() {
+      duration = time.value * 60 * 1000;
+      timeLeft = duration;
+      remaining.textContent = "";
+      fill.style.width = "0%";
+    }
+  </script>
+</body>
+</html>

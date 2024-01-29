@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 50px;
+            font-family: 'NanumSquareNeo', sans-serif; /* 나눔스퀘어 네오로 변경 */
+            background-color: rgb(0, 255, 0);
+            color: rgb(255, 0, 0); /* 글자 색상을 빨간색으로 설정 */
+        }
+        #timer {
+            font-size: 4em;
+            margin: auto; /* 가운데 정렬을 위해 추가 */
+        }
+        #controls {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-right: 10px;
+            background-color: rgb(0, 255, 0);
+        }
+    </style>
+    <style>
+        @font-face {
+            font-family: 'NanumSquareNeo';
+            font-weight: 900;
+            font-style: normal;
+            src: url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.eot');
+            src: url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.eot?#iefix') format('embedded-opentype'),
+                 url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.woff2') format('woff2'),
+                 url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.woff') format('woff'),
+                 url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.ttf') format("truetype");
+            font-display: swap;
+        }
+    </style>
+</head>
+<body>
+    <div id="timer">0:00:00</div>
+    <div id="controls">
+        <button onclick="startStop()">Start/Stop</button>
+        <button onclick="reset()">Reset</button>
+    </div>
+    <script>
+        let timerRunning = false;
+        let seconds = 0;
+        let timerInterval;
+
+        function startStop() {
+            if (!timerRunning) {
+                startTimer();
+            } else {
+                stopTimer();
+            }
+        }
+
+        function reset() {
+            stopTimer();
+            seconds = 0;
+            updateTimerDisplay();
+        }
+
+        function startTimer() {
+            timerRunning = true;
+            timerInterval = setInterval(() => {
+                seconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            timerRunning = false;
+            clearInterval(timerInterval);
+        }
+
+        function updateTimerDisplay() {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainderSeconds = seconds % 60;
+            document.getElementById('timer').innerText = `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${remainderSeconds < 10 ? '0' : ''}${remainderSeconds}`;
+        }
+    </script>
+</body>
+</html>

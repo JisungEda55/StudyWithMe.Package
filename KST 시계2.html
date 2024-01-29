@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KST Time</title>
+    
+    <!-- 각주는 스크립트 작성시 타인과의 협업에서 중요한 역할을 합니다. GitHub에 업로드 되어있는 이 HTML파일을 수정하신다면 각주를 확인해주시고, 본인이 차후에 수정할 때를 위해서도 각주를 적재적소에 작성하는 것이 중요합니다.@JisungEda55 -->
+
+    <!-- 나눔스퀘어 네오 900 폰트 -->
+    <style>
+        @font-face {
+            font-family: 'NanumSquareNeo';
+            font-weight: 900;
+            font-style: normal;
+            src: url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.eot');
+            src: url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.eot?#iefix') format('embedded-opentype'),
+                 url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.woff2') format('woff2'),
+                 url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.woff') format('woff'),
+                 url('https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo-eHv.ttf') format("truetype");
+            font-display: swap;
+        }
+
+        body {
+            font-family: 'NanumSquareNeo', sans-serif;
+            text-align: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #fff;
+            color: #326ee7;
+        }
+
+        p {
+            font-size: 72px; /* 폰트의 크기를 수정하려면 이곳 변경 */
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <p id="currentTime"></p>
+
+    <script>
+        // JavaScript를 사용하여 KST 시간을 가져오는 함수
+        function getKSTTime() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            var seconds = now.getSeconds().toString().padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        // KST 시간 여부를 확인하는 함수
+        function isKST() {
+            var now = new Date();
+            var offset = now.getTimezoneOffset();
+            return offset === -540; // KST는 UTC+9 (9시간 미리감소), offset이 -540이면 KST
+        }
+
+        // KST로 시간을 수정하는 함수
+        function setKSTTime() {
+            var now = new Date();
+            var kstTime = new Date(now.getTime() - (now.getTimezoneOffset() - (-540)) * 60 * 1000);
+            return kstTime;
+        }
+
+        // 5분마다 KST 여부 확인하고 수정
+        function checkAndFixKST() {
+            if (!isKST()) {
+                console.log('현재 시간이 KST가 아닙니다. 시간을 수정합니다.');
+                var kstTime = setKSTTime();
+                console.log('수정된 KST 시간:', kstTime);
+                updateKSTTime(kstTime);
+            }
+        }
+
+        // HTML 요소에 시간을 업데이트하는 함수
+        function updateKSTTime(time) {
+            var kstTimeElement = document.getElementById('currentTime');
+            kstTimeElement.textContent = time ? getFormattedTime(time) : getKSTTime();
+        }
+
+        // 시간을 "HH:mm:ss" 형식으로 포맷하는 함수
+        function getFormattedTime(time) {
+            var hours = time.getHours().toString().padStart(2, '0');
+            var minutes = time.getMinutes().toString().padStart(2, '0');
+            var seconds = time.getSeconds().toString().padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAndFixKST();
+
+            // 1초마다 KST 여부 확인
+            setInterval(checkAndFixKST, 5 * 60 * 1000);
+
+            // 1초마다 시간을 업데이트
+            setInterval(function() {
+                if (isKST()) {
+                    updateKSTTime();
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
