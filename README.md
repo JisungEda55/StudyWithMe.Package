@@ -1,4 +1,7 @@
 # StudyWithMe.Package
+This README.md was created by AI technology, and JisungEda55 (Developer) does not bear any responsibility or ideological opinion for the sentences written in this file. The information written in this file may contain incorrect information.
+
+#Look! If you dont's know how to download html file then 1.Copy(Ctrl + C) 2.Open a Note 3.Paste(Ctrl + V) 4.Save txt file like "(name).html.txt" 5.Change file name to (name).html(remove .txt) 6.Check YES 7.Have a NICE Time :D
 
 English Read.me
 
